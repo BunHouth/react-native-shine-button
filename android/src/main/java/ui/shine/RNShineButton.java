@@ -107,6 +107,24 @@ public class RNShineButton extends ViewGroupManager<ViewGroup> {
     shineButton.setBtnFillColor(Color.parseColor(fillColor));
   }
 
+  @ReactProp(name = "bigShineColor")
+  public void setBigShineColor(FrameLayout shineButtonFrame, String fillColor) {
+    ShineButton shineButton = (ShineButton) shineButtonFrame.getChildAt(0);
+    shineButton.setBigShineColor(Color.parseColor(fillColor));
+  }
+
+  @ReactProp(name = "smallShineColor")
+  public void setSmallShineColor(FrameLayout shineButtonFrame, String fillColor) {
+    ShineButton shineButton = (ShineButton) shineButtonFrame.getChildAt(0);
+    shineButton.setSmallShineColor(Color.parseColor(fillColor));
+  }
+
+  @ReactProp(name = "allowRandomColor")
+  public void setAllowRandomColor(FrameLayout shineButtonFrame, boolean random) {
+    ShineButton shineButton = (ShineButton) shineButtonFrame.getChildAt(0);
+    shineButton.setEnabled(!random);
+  }
+
   @ReactProp(name = "shape")
   public void setShape(FrameLayout shineButtonFrame, ReadableMap shapeProps) {
     ShineButton shineButton = (ShineButton) shineButtonFrame.getChildAt(0);
