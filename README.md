@@ -1,3 +1,4 @@
+
 <h1 align="center">
 
 <p align="center">
@@ -160,11 +161,14 @@ import RNShineButton from 'react-native-shine-button';
 | `disabled`    | `bool`     |         | Disabling the Shine Button                                        |  |
 | `value`      | `bool`     |         | Default value whether it is selected or not
 | `onChange`      | `func`     |         | It is invoke then the value of shine button is change
+| `allowRandomColor`      | `bool`     |     true    | Allow shine color random
+| `bigShineColor`      | `string: HEX-COLOR`     |         | big shine color
+| `smallShineColor`      | `string: HEX-COLOR`     |         | small shine color
 
 
 ## ✨ Credits
 
-- Android lib [ChadCSong/ShineButton](https://github.com/ChadCSong/ShineButton) Android implement. 
+- Android lib [ChadCSong/ShineButton](https://github.com/ChadCSong/ShineButton) Android implement.
 - iOS lib [imwcl/WCLShineButton](https://github.com/imwcl/WCLShineButton) iOS implement
 
 ## 🤔 How to contribute

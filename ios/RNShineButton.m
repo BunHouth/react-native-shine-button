@@ -1,6 +1,7 @@
-
 #import "RNShineButton.h"
+#import "BeneApp-Swift.h"
 
+@import WCLShineButton;
 @implementation RNShineButton
 
 - (dispatch_queue_t)methodQueue
@@ -16,17 +17,19 @@ RCT_EXPORT_MODULE();
 
     [shineButton touchesEnded:nil withEvent: nil];
     BOOL selection = [shineButton getSelection];
-    
+
     NSDictionary *event = @{
         @"target": shineButton.reactTag,
         @"value": selection ? @"YES" : @"NO",
         @"name": @"tap",
     };
-    
+
     RCTComponentEvent *cEvent = [[RCTComponentEvent alloc] initWithName:@"topChange"
                                                              viewTag:shineButton.reactTag
                                                                 body:event];
     [self.bridge.eventDispatcher sendEvent:cEvent];
+
+  // [self.bridge enqueueJSCall:@"RCTEventEmitter" method:@"receiveEvent" args:@[event[@"target"], RCTNormalizeInputEventName(@"topChange"), event] completion:NULL];
 }
 
 - (WCLShineButton *)view {
@@ -35,11 +38,10 @@ RCT_EXPORT_MODULE();
     UITapGestureRecognizer *singleTap =
     [[UITapGestureRecognizer alloc] initWithTarget:self
                                             action:@selector(handleTap:)];
+
     [shineButton addGestureRecognizer: singleTap];
-    
     return shineButton;
 }
-
 
 RCT_CUSTOM_VIEW_PROPERTY(size, NSInteger *, WCLShineButton) {
     view.frame = CGRectMake(0, 0, [json floatValue], [json floatValue]);
@@ -53,6 +55,23 @@ RCT_CUSTOM_VIEW_PROPERTY(color, NSString *, WCLShineButton) {
 RCT_CUSTOM_VIEW_PROPERTY(fillColor, NSString *, WCLShineButton) {
     view.fillColor = [RNShineButton colorFromHexCode: json];
 }
+
+RCT_CUSTOM_VIEW_PROPERTY(bigShineColor, NSString *, WCLShineButton) {
+    view.bigShineColor = [RNShineButton colorFromHexCode: json];
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(smallShineColor, NSString *, WCLShineButton) {
+    view.smallShineColor = [RNShineButton colorFromHexCode: json];
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(allowRandomColor, NSString *, WCLShineButton) {
+  if ([json boolValue] == YES) {
+      view.allowRandomColor = true;
+  } else {
+    view.allowRandomColor = false;
+  }
+}
+
 
 RCT_CUSTOM_VIEW_PROPERTY(value, NSInteger *, WCLShineButton) {
     if ([json boolValue] == YES) {
@@ -72,7 +91,7 @@ RCT_CUSTOM_VIEW_PROPERTY(shape, NSDictonary *, WCLShineButton) {
     } else {
         shape = [json objectForKey: @"shape"];
     }
-    
+
     if ([shape isEqualToString:@"heart"]) {
         view.image = @".heart";
     } else if ([shape isEqualToString:@"like"]) {
@@ -84,10 +103,14 @@ RCT_CUSTOM_VIEW_PROPERTY(shape, NSDictonary *, WCLShineButton) {
     } else {
         if (drawable != nil) {
             view.customImage = drawable;
+        } else {
+          NSString *customImage = [NSString stringWithFormat:@"%@.png", shape];;
+
+          view.customImage = [UIImage imageNamed:customImage];
         }
     }
-}
 
+}
 
 + (UIColor *) colorFromHexCode:(NSString *)hexString {
     NSString *cleanString = [hexString stringByReplacingOccurrencesOfString:@"#" withString:@""];
@@ -100,15 +123,15 @@ RCT_CUSTOM_VIEW_PROPERTY(shape, NSDictonary *, WCLShineButton) {
     if([cleanString length] == 6) {
         cleanString = [cleanString stringByAppendingString:@"ff"];
     }
-    
+
     unsigned int baseValue;
     [[NSScanner scannerWithString:cleanString] scanHexInt:&baseValue];
-    
+
     float red = ((baseValue >> 24) & 0xFF)/255.0f;
     float green = ((baseValue >> 16) & 0xFF)/255.0f;
     float blue = ((baseValue >> 8) & 0xFF)/255.0f;
     float alpha = ((baseValue >> 0) & 0xFF)/255.0f;
-    
+
     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
 }
 
@@ -118,26 +141,22 @@ RCT_CUSTOM_VIEW_PROPERTY(shape, NSDictonary *, WCLShineButton) {
     NSString *glyph = [icon objectForKey: @"glyph"];
     NSNumber *size = [icon objectForKey: @"size"];
     NSString *color = [icon objectForKey: @"color"];
-    
-    if (name != nil && [name length] > 0 && [name containsString: @"."]) {
-        return [UIImage imageNamed: name];
-    }
-    
+
     UIColor *uiColor = [RNShineButton colorFromHexCode: color];
     CGFloat screenScale = RCTScreenScale();
-    
+
     UIFont *font = [UIFont fontWithName:family size:[size floatValue]];
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:glyph attributes:@{NSFontAttributeName: font, NSForegroundColorAttributeName: uiColor}];
-    
+
     CGSize iconSize = [attributedString size];
     UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
     [attributedString drawAtPoint:CGPointMake(0, 0)];
-    
+
     UIImage *iconImage = UIGraphicsGetImageFromCurrentImageContext();
+
     UIGraphicsEndImageContext();
-    
+
     return iconImage;
 }
 
 @end
-  

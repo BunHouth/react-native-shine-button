@@ -11,4 +11,3 @@
 @interface RNShineButton : RCTViewManager
 
 @end
-  

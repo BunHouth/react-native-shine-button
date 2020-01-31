@@ -1,11 +1,10 @@
+import React, {PureComponent} from "react";
+import {StyleSheet, ViewPropTypes, Platform} from "react-native";
+import PropTypes from "prop-types";
 
-import React, { PureComponent } from 'react'
-import { StyleSheet, ViewPropTypes, Platform } from "react-native"
-import PropTypes from 'prop-types'
+import {requireNativeComponent} from "react-native";
 
-import { requireNativeComponent } from "react-native"
-
-import RNVectorHelper from './RNVectorHelper'
+import RNVectorHelper from "./RNVectorHelper";
 
 class RNShineButton extends PureComponent {
   _onChange = event => {
@@ -14,7 +13,7 @@ class RNShineButton extends PureComponent {
 
     this.props.onChange && this.props.onChange(value);
 
-    this._shineButton.setNativeProps({ on: event.nativeEvent.value });
+    this._shineButton.setNativeProps({on: event.nativeEvent.value});
   };
 
   render() {
@@ -24,7 +23,7 @@ class RNShineButton extends PureComponent {
       let vectorIcon = RNVectorHelper.Resolve(icon.family, icon.name);
 
       shape = Object.assign({}, icon, vectorIcon);
-      shape = Object.assign({}, shape, { size: this.props.size });
+      shape = Object.assign({}, shape, {size: this.props.size});
     } else {
       shape = {
         shape: this.props.shape
@@ -37,7 +36,7 @@ class RNShineButton extends PureComponent {
         ref={ref => {
           this._shineButton = ref;
         }}
-        style={{ width: this.props.size, height: this.props.size }}
+        style={{width: this.props.size, height: this.props.size}}
         size={this.props.size}
         value={this.props.value}
         disable={this.props.disabled}
@@ -46,10 +45,9 @@ class RNShineButton extends PureComponent {
         fillColor={this.props.fillColor}
         onChange={this._onChange}
       />
-    )
+    );
   }
 }
-
 
 RNShineButton.propTypes = {
   ...ViewPropTypes,
@@ -65,18 +63,21 @@ RNShineButton.propTypes = {
   fillColor: PropTypes.string,
   size: PropTypes.number,
   props: PropTypes.object,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  bigShineColor: PropTypes.string,
+  smallShineColor: PropTypes.string,
+  allowRandomColor: PropTypes.bool
 };
 
 RNShineButton.defaultProps = {
   value: false,
   disabled: false,
-  size: 100
+  size: 100,
+  allowRandomColor: true
 };
 
-
 const ShineButton = requireNativeComponent("RNShineButton", RNShineButton, {
-  nativeOnly: { onChange: true }
-})
+  nativeOnly: {onChange: true}
+});
 
-export default RNShineButton
+export default RNShineButton;
