@@ -156,6 +156,9 @@ public class RNShineButton extends ViewGroupManager<ViewGroup> {
         if (drawable != null) {
           shineButton.setShape(drawable);
         }
+        String fileName = shape;
+        int resId = reactContext.getResources().getIdentifier(fileName, "raw", reactContext.getPackageName());
+        shineButton.setShapeResource(resId);
     }
 
     if (shineButton.isChecked()) {
