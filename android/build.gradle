@@ -41,5 +41,5 @@ repositories {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+'
-    implementation 'com.github.BunHouth/ShineButton:0.2.2'
+    implementation 'com.github.BunHouth:ShineButton:0.2.2'
 }
