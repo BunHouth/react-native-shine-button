@@ -36,9 +36,13 @@ class RNShineButton extends PureComponent {
         ref={ref => {
           this._shineButton = ref;
         }}
-        style={{width: this.props.size, height: this.props.size}}
+        style={{
+          width: this.props.size,
+          height: this.props.size
+        }}
         size={this.props.size}
         value={this.props.value}
+        animate={this.props.animate}
         disable={this.props.disabled}
         shape={shape}
         color={this.props.color}
@@ -66,14 +70,16 @@ RNShineButton.propTypes = {
   onChange: PropTypes.func,
   bigShineColor: PropTypes.string,
   smallShineColor: PropTypes.string,
-  allowRandomColor: PropTypes.bool
+  allowRandomColor: PropTypes.bool,
+  animate: PropTypes.bool
 };
 
 RNShineButton.defaultProps = {
   value: false,
   disabled: false,
   size: 100,
-  allowRandomColor: true
+  allowRandomColor: true,
+  animate: false
 };
 
 const ShineButton = requireNativeComponent("RNShineButton", RNShineButton, {

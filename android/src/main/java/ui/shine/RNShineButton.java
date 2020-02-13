@@ -63,9 +63,7 @@ public class RNShineButton extends ViewGroupManager<ViewGroup> {
        int id = frameLayout.getId();
 
         reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(
-                new ShineButtonEvent(
-                        id,
-                        checked));
+                new ShineButtonEvent(id, checked));
       }
     });
 
@@ -83,10 +81,18 @@ public class RNShineButton extends ViewGroupManager<ViewGroup> {
     shineButton.setLayoutParams(layoutParams);
   }
 
-  @ReactProp(name = "value")
+  @ReactProp(name = "value", defaultBoolean = false)
   public void setValue(FrameLayout shineButtonFrame, boolean on){
     ShineButton shineButton = (ShineButton) shineButtonFrame.getChildAt(0);
     shineButton.setChecked(on);
+  }
+
+  @ReactProp(name = "animate", defaultBoolean = false)
+  public void setAnimate(FrameLayout shineButtonFrame, boolean on){
+    ShineButton shineButton = (ShineButton) shineButtonFrame.getChildAt(0);
+    if(on) {
+      shineButton.showAnim();
+    }
   }
 
   @ReactProp(name = "disabled", defaultBoolean = false)
